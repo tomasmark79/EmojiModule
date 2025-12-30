@@ -14,7 +14,8 @@ namespace dotnamecpp::v1 {
 
     emoji_ = std::make_unique<dotnamecpp::emoji::Emoji>(utilsComponents);
     emoji_->emojiChainTest<false>();
-    logger_->infoStream() << "Static emoji: " << emoji_->getEmoji();
+    logger_->infoStream() << "Static emoji: " << emoji_->getEmoji() << ", Random emoji: "
+                          << emoji_->getRandomEmoji();
 
     logger_->infoStream() << libName_ << " initialized ...";
     isInitialized_ = true;

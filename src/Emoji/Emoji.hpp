@@ -22,6 +22,7 @@ namespace dotnamecpp::emoji {
 
     std::map<std::u32string, EmojiMap> emojiMap_;
 
+    std::string getRandomEmoji();
     std::string getEmoji();
     std::string getEmoji(char32_t *code, size_t totalCodePoints);
     std::string getEmoji(int32_t *code, size_t totalCodePoints);

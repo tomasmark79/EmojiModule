@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cctype>
 #include <fstream>
+#include <random>
 #include <regex>
 
 namespace dotnamecpp::emoji {
@@ -20,6 +21,25 @@ namespace dotnamecpp::emoji {
   }
 
   Emoji::~Emoji() {}
+
+  std::string Emoji::getRandomEmoji() {
+    // modern C++ way to generate random number
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, emojiMap_.size() - 1);
+
+    if (emojiMap_.empty()) {
+      return getEmoji();
+    }
+    auto it = emojiMap_.begin();
+    std::advance(it, dis(gen));
+    const auto &emojiEntry = it->first;
+    char8_t buffer[kMaxBufferSize];
+    char8_t *end = encodeUtf8Sequence(reinterpret_cast<const char32_t *>(emojiEntry.c_str()),
+                                      emojiEntry.size(), buffer);
+    *end = '\0';
+    return std::string(reinterpret_cast<char *>(buffer));
+  }
 
   std::string Emoji::getEmoji() { return "😀"; }
 

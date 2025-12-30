@@ -26,35 +26,36 @@
 \DoxyCodeLine{00022\ }
 \DoxyCodeLine{00023\ \ \ \ \ std::map<std::u32string,\ EmojiMap>\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_a926fdd94a91ff25a32588431b28ec9de}{emojiMap\_}};}
 \DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ std::string\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ab8104abf02b4550ce884852e3566585b}{getEmoji}}();}
-\DoxyCodeLine{00026\ \ \ \ \ std::string\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ab8104abf02b4550ce884852e3566585b}{getEmoji}}(\textcolor{keywordtype}{char32\_t}\ *code,\ \textcolor{keywordtype}{size\_t}\ totalCodePoints);}
-\DoxyCodeLine{00027\ \ \ \ \ std::string\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ab8104abf02b4550ce884852e3566585b}{getEmoji}}(int32\_t\ *code,\ \textcolor{keywordtype}{size\_t}\ totalCodePoints);}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ EnableTest>}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ac8f741680b3cebc8a6646b945907fb64}{emojiChainTest}}()\ \{}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (EnableTest)\ \{}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ std::string\ emojiChain;}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ int32\_t\ kEmojiStartCodePoint\ =\ 0x1F600;}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ int32\_t\ kEmojiEndCodePoint\ =\ 0x1FFFF;}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (int32\_t\ i\ =\ kEmojiStartCodePoint;\ i\ <=\ kEmojiEndCodePoint;\ i++)\ \{}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ emojiChain\ +=\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ab8104abf02b4550ce884852e3566585b}{getEmoji}}(\&i,\ 1);}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ logger\_-\/>infoStream()\ <<\ \textcolor{stringliteral}{"{}Emoji\ chain:\ "{}}\ <<\ emojiChain;}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00040\ \ \ \ \ \}}
-\DoxyCodeLine{00041\ }
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_a5e1f83e4ca7ae165a7c258d17ae1c7aa}{initMemory}}();}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00045\ \ \ \ \ std::shared\_ptr<dotnamecpp::logging::ILogger>\ logger\_;}
-\DoxyCodeLine{00046\ \ \ \ \ std::shared\_ptr<dotnamecpp::assets::IAssetManager>\ assetManager\_;}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char8\_t}\ *encodeUtf8(\textcolor{keywordtype}{char32\_t}\ emojiCodePoint,\ \textcolor{keywordtype}{char8\_t}\ *buffer8\_t);}
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char8\_t}\ *encodeUtf8Sequence(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char32\_t}\ *emojiCodePoints,\ \textcolor{keywordtype}{size\_t}\ totalCodePoints,}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char8\_t}\ *buffer8\_t);}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ isPopulated\_\{\textcolor{keyword}{false}\};}
-\DoxyCodeLine{00053\ \ \ \};}
-\DoxyCodeLine{00054\ \}\ \textcolor{comment}{//\ namespace\ dotnamecpp::emoji}}
+\DoxyCodeLine{00025\ \ \ \ \ std::string\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_a3f5239192f95e65662099eda3030d1b9}{getRandomEmoji}}();}
+\DoxyCodeLine{00026\ \ \ \ \ std::string\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ab8104abf02b4550ce884852e3566585b}{getEmoji}}();}
+\DoxyCodeLine{00027\ \ \ \ \ std::string\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ab8104abf02b4550ce884852e3566585b}{getEmoji}}(\textcolor{keywordtype}{char32\_t}\ *code,\ \textcolor{keywordtype}{size\_t}\ totalCodePoints);}
+\DoxyCodeLine{00028\ \ \ \ \ std::string\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ab8104abf02b4550ce884852e3566585b}{getEmoji}}(int32\_t\ *code,\ \textcolor{keywordtype}{size\_t}\ totalCodePoints);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keywordtype}{bool}\ EnableTest>}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ac8f741680b3cebc8a6646b945907fb64}{emojiChainTest}}()\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (EnableTest)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ std::string\ emojiChain;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ int32\_t\ kEmojiStartCodePoint\ =\ 0x1F600;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keyword}{constexpr}\ int32\_t\ kEmojiEndCodePoint\ =\ 0x1FFFF;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (int32\_t\ i\ =\ kEmojiStartCodePoint;\ i\ <=\ kEmojiEndCodePoint;\ i++)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ emojiChain\ +=\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_ab8104abf02b4550ce884852e3566585b}{getEmoji}}(\&i,\ 1);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ logger\_-\/>infoStream()\ <<\ \textcolor{stringliteral}{"{}Emoji\ chain:\ "{}}\ <<\ emojiChain;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji_a5e1f83e4ca7ae165a7c258d17ae1c7aa}{initMemory}}();}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00046\ \ \ \ \ std::shared\_ptr<dotnamecpp::logging::ILogger>\ logger\_;}
+\DoxyCodeLine{00047\ \ \ \ \ std::shared\_ptr<dotnamecpp::assets::IAssetManager>\ assetManager\_;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char8\_t}\ *encodeUtf8(\textcolor{keywordtype}{char32\_t}\ emojiCodePoint,\ \textcolor{keywordtype}{char8\_t}\ *buffer8\_t);}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char8\_t}\ *encodeUtf8Sequence(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char32\_t}\ *emojiCodePoints,\ \textcolor{keywordtype}{size\_t}\ totalCodePoints,}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char8\_t}\ *buffer8\_t);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ isPopulated\_\{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{00054\ \ \ \};}
+\DoxyCodeLine{00055\ \}\ \textcolor{comment}{//\ namespace\ dotnamecpp::emoji}}
 
 \end{DoxyCode}

@@ -32,6 +32,14 @@ Collaboration diagram for dotnamecpp\+::v1\+::Emoji\+Module\+Lib\+:
 bool \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a51eb024af982757f6a25fa26bff85c01}{is\+Initialized}} () const noexcept
 \item 
 const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classdotnamecpp_1_1assets_1_1IAssetManager}{dotnamecpp\+::assets\+::\+IAsset\+Manager}} $>$ \& \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a90dcaa595310dff9c5840dd633166ec5}{get\+Asset\+Manager}} () const noexcept
+\item 
+std\+::string \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a82eb171424673eea0a9d884bb69a997e}{get\+Random\+Emoji}} () const
+\item 
+std\+::string \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad4b40a0e3365ab0431fdf57bdd95d331}{get\+Emoji}} () const
+\item 
+std\+::string \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a8f36f73677ee71ffd1947dcdf3f4004e}{get\+Emoji}} (char32\+\_\+t \texorpdfstring{$\ast$}{*}code, size\+\_\+t total\+Code\+Points) const
+\item 
+std\+::string \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a3b3a113b10efa1f5dcbab1d3f6190af9}{get\+Emoji}} (int32\+\_\+t \texorpdfstring{$\ast$}{*}code, size\+\_\+t total\+Code\+Points) const
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -49,8 +57,7 @@ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{classdotnamecpp_1_1emoji_1_1Emoji}{do
 {\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad8b377a109e1cc8fb6892de7b9f4e389} 
 dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::\+Emoji\+Module\+Lib (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structdotnamecpp_1_1utils_1_1UtilsFactory_1_1AppComponents}{Utils\+Factory\+::\+App\+Components}} \&}]{utils\+Components}{}\end{DoxyParamCaption})}
 
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -69,8 +76,7 @@ dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::\texorpdfstring{$\sim$}{\string~}\+E
 {\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a5d8445b1b1726b15fa4201ceeeba3d2d} 
 dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::\+Emoji\+Module\+Lib (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib}{Emoji\+Module\+Lib}} \&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -83,8 +89,7 @@ Here is the call graph for this function\+:
 {\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a20d7d8c8fa177dcb2e37323fa3efa564} 
 dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::\+Emoji\+Module\+Lib (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib}{Emoji\+Module\+Lib}} \&\&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -102,14 +107,37 @@ Here is the call graph for this function\+:
 {\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a90dcaa595310dff9c5840dd633166ec5} 
 const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classdotnamecpp_1_1assets_1_1IAssetManager}{dotnamecpp\+::assets\+::\+IAsset\+Manager}} $>$ \& dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::get\+Asset\+Manager (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
 
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a90dcaa595310dff9c5840dd633166ec5_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad4b40a0e3365ab0431fdf57bdd95d331}\index{dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}!getEmoji@{getEmoji}}
+\index{getEmoji@{getEmoji}!dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}}
+\doxysubsubsection{\texorpdfstring{getEmoji()}{getEmoji()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad4b40a0e3365ab0431fdf57bdd95d331} 
+std\+::string dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::get\+Emoji (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+\Hypertarget{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a8f36f73677ee71ffd1947dcdf3f4004e}\index{dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}!getEmoji@{getEmoji}}
+\index{getEmoji@{getEmoji}!dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}}
+\doxysubsubsection{\texorpdfstring{getEmoji()}{getEmoji()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a8f36f73677ee71ffd1947dcdf3f4004e} 
+std\+::string dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::get\+Emoji (\begin{DoxyParamCaption}\item[{char32\+\_\+t \texorpdfstring{$\ast$}{*}}]{code}{, }\item[{size\+\_\+t}]{total\+Code\+Points}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+\Hypertarget{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a3b3a113b10efa1f5dcbab1d3f6190af9}\index{dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}!getEmoji@{getEmoji}}
+\index{getEmoji@{getEmoji}!dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}}
+\doxysubsubsection{\texorpdfstring{getEmoji()}{getEmoji()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a3b3a113b10efa1f5dcbab1d3f6190af9} 
+std\+::string dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::get\+Emoji (\begin{DoxyParamCaption}\item[{int32\+\_\+t \texorpdfstring{$\ast$}{*}}]{code}{, }\item[{size\+\_\+t}]{total\+Code\+Points}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+\Hypertarget{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a82eb171424673eea0a9d884bb69a997e}\index{dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}!getRandomEmoji@{getRandomEmoji}}
+\index{getRandomEmoji@{getRandomEmoji}!dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}}
+\doxysubsubsection{\texorpdfstring{getRandomEmoji()}{getRandomEmoji()}}
+{\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a82eb171424673eea0a9d884bb69a997e} 
+std\+::string dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::get\+Random\+Emoji (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
 \Hypertarget{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a51eb024af982757f6a25fa26bff85c01}\index{dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}!isInitialized@{isInitialized}}
 \index{isInitialized@{isInitialized}!dotnamecpp::v1::EmojiModuleLib@{dotnamecpp::v1::EmojiModuleLib}}
 \doxysubsubsection{\texorpdfstring{isInitialized()}{isInitialized()}}
@@ -122,8 +150,7 @@ bool dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::is\+Initialized (\begin{DoxyPar
 {\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a66e80702039aee3938b3b3e6b380b60d} 
 \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib}{Emoji\+Module\+Lib}} \& dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib}{Emoji\+Module\+Lib}} \&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -136,8 +163,7 @@ Here is the call graph for this function\+:
 {\footnotesize\ttfamily \label{classdotnamecpp_1_1v1_1_1EmojiModuleLib_af641a2b1020a0e18265cc0dc44f9bad7} 
 \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib}{Emoji\+Module\+Lib}} \& dotnamecpp\+::v1\+::\+Emoji\+Module\+Lib\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib}{Emoji\+Module\+Lib}} \&\&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

@@ -1,5 +1,15 @@
 var NAVTREEINDEX4 =
 {
+"namespacedotnamecpp_1_1utils.html#aea22063b35ff66feb70a5f21ac136cdfaf114a61fd6e7b65e472a6d65afe39974":[0,0,0,3,28,1],
+"namespacedotnamecpp_1_1v1.html":[0,0,0,4],
+"namespacemembers.html":[0,1,0],
+"namespacemembers_enum.html":[0,1,3],
+"namespacemembers_func.html":[0,1,1],
+"namespacemembers_vars.html":[0,1,2],
+"namespaces.html":[0,0],
+"pages.html":[],
+"structdotnamecpp_1_1emoji_1_1Emoji_1_1EmojiMap.html":[0,0,0,1,0,0],
+"structdotnamecpp_1_1emoji_1_1Emoji_1_1EmojiMap.html":[1,0,0,1,0,0],
 "structdotnamecpp_1_1emoji_1_1Emoji_1_1EmojiMap.html#a5c3c80e033b6c5688c59f1b8bc36a8b0":[0,0,0,1,0,0,1],
 "structdotnamecpp_1_1emoji_1_1Emoji_1_1EmojiMap.html#a5c3c80e033b6c5688c59f1b8bc36a8b0":[1,0,0,1,0,0,1],
 "structdotnamecpp_1_1emoji_1_1Emoji_1_1EmojiMap.html#a6925116dc13c21e5908983031aaacadf":[0,0,0,1,0,0,3],

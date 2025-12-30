@@ -28,14 +28,20 @@
 \DoxyCodeLine{00024\ }
 \DoxyCodeLine{00025\ \ \ \ \ std::unique\_ptr<\mbox{\hyperlink{namespacedotnamecpp}{dotnamecpp}}::\mbox{\hyperlink{namespacedotnamecpp_1_1emoji}{emoji}}::Emoji>\ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a3f8f7e00adeae482d04641c0274690a6}{emoji\_}};}
 \DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ private:}
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{bool}\ isInitialized\_\{\textcolor{keyword}{false}\};}
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *libName\_\ =\ \textcolor{stringliteral}{"{}EmojiModuleLib\ v"{}}\ EMOJIMODULELIB\_VERSION;}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \ \ \ \ std::shared\_ptr<dotnamecpp::logging::ILogger>\ logger\_;}
-\DoxyCodeLine{00032\ \ \ \ \ std::shared\_ptr<dotnamecpp::assets::IAssetManager>\ assetManager\_;}
-\DoxyCodeLine{00033\ \ \ \};}
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ \}\ \textcolor{comment}{//\ namespace\ dotnamecpp::v1}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{comment}{//\ Public\ Emoji\ methods}}
+\DoxyCodeLine{00028\ \ \ \ \ [[nodiscard]]\ std::\textcolor{keywordtype}{string}\ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a82eb171424673eea0a9d884bb69a997e}{getRandomEmoji}}()\ const;}
+\DoxyCodeLine{00029\ \ \ \ \ [[nodiscard]]\ std::\textcolor{keywordtype}{string}\ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad4b40a0e3365ab0431fdf57bdd95d331}{getEmoji}}()\ const;}
+\DoxyCodeLine{00030\ \ \ \ \ [[nodiscard]]\ std::\textcolor{keywordtype}{string}\ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad4b40a0e3365ab0431fdf57bdd95d331}{getEmoji}}(\textcolor{keywordtype}{char32\_t}\ *code,\ \textcolor{keywordtype}{size\_t}\ totalCodePoints)\ const;}
+\DoxyCodeLine{00031\ \ \ \ \ [[nodiscard]]\ std::\textcolor{keywordtype}{string}\ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad4b40a0e3365ab0431fdf57bdd95d331}{getEmoji}}(int32\_t\ *code,\ \textcolor{keywordtype}{size\_t}\ totalCodePoints)\ const;}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ private:}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{bool}\ isInitialized\_\{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *libName\_\ =\ \textcolor{stringliteral}{"{}EmojiModuleLib\ v"{}}\ EMOJIMODULELIB\_VERSION;}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ std::shared\_ptr<dotnamecpp::logging::ILogger>\ logger\_;}
+\DoxyCodeLine{00038\ \ \ \ \ std::shared\_ptr<dotnamecpp::assets::IAssetManager>\ assetManager\_;}
+\DoxyCodeLine{00039\ \ \ \};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \}\ \textcolor{comment}{//\ namespace\ dotnamecpp::v1}}
 
 \end{DoxyCode}

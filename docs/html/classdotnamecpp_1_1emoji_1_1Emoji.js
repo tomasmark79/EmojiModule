@@ -7,6 +7,7 @@ var classdotnamecpp_1_1emoji_1_1Emoji =
     [ "getEmoji", "classdotnamecpp_1_1emoji_1_1Emoji.html#ab8104abf02b4550ce884852e3566585b", null ],
     [ "getEmoji", "classdotnamecpp_1_1emoji_1_1Emoji.html#abcd310c04fb879a40e235f66f4498d64", null ],
     [ "getEmoji", "classdotnamecpp_1_1emoji_1_1Emoji.html#a0bf52428bf8d5ae5d2e6d1442772e0aa", null ],
+    [ "getRandomEmoji", "classdotnamecpp_1_1emoji_1_1Emoji.html#a3f5239192f95e65662099eda3030d1b9", null ],
     [ "initMemory", "classdotnamecpp_1_1emoji_1_1Emoji.html#a5e1f83e4ca7ae165a7c258d17ae1c7aa", null ],
     [ "emojiMap_", "classdotnamecpp_1_1emoji_1_1Emoji.html#a926fdd94a91ff25a32588431b28ec9de", null ]
 ];

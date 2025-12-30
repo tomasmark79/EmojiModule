@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"classdotnamecpp_1_1emoji_1_1Emoji.html#a926fdd94a91ff25a32588431b28ec9de":[1,0,0,1,0,9],
+"classdotnamecpp_1_1emoji_1_1Emoji.html#ab8104abf02b4550ce884852e3566585b":[0,0,0,1,0,4],
 "classdotnamecpp_1_1emoji_1_1Emoji.html#ab8104abf02b4550ce884852e3566585b":[1,0,0,1,0,4],
 "classdotnamecpp_1_1emoji_1_1Emoji.html#abcd310c04fb879a40e235f66f4498d64":[0,0,0,1,0,5],
 "classdotnamecpp_1_1emoji_1_1Emoji.html#abcd310c04fb879a40e235f66f4498d64":[1,0,0,1,0,5],
@@ -247,7 +249,5 @@ var NAVTREEINDEX1 =
 "classdotnamecpp_1_1utils_1_1ICustomStringsLoader.html#a5e712405c5636d242e9565ac33e3a35f":[1,0,0,3,7,4],
 "classdotnamecpp_1_1utils_1_1IDirectoryManager.html":[0,0,0,3,8],
 "classdotnamecpp_1_1utils_1_1IDirectoryManager.html":[1,0,0,3,8],
-"classdotnamecpp_1_1utils_1_1IDirectoryManager.html#a0b8c3a1b53f062f4970fdb55804da654":[0,0,0,3,8,9],
-"classdotnamecpp_1_1utils_1_1IDirectoryManager.html#a0b8c3a1b53f062f4970fdb55804da654":[1,0,0,3,8,9],
-"classdotnamecpp_1_1utils_1_1IDirectoryManager.html#a2ed4f0ab00845f8fda8c3982585429b0":[0,0,0,3,8,5]
+"classdotnamecpp_1_1utils_1_1IDirectoryManager.html#a0b8c3a1b53f062f4970fdb55804da654":[0,0,0,3,8,9]
 };

@@ -1,0 +1,21 @@
+clang
+# Configuration file for ccls IntelliSense LSP server if prefered over clangd
+# %h -x c-header
+# %hpp -x c++-header
+# %hxx -x c++-header
+# %objc -x objective-c
+# %objcpp -x objective-c++
+# %objcxx -x objective-c++
+# %cuda -x cuda
+# %cuda_h -x cuda-header
+# -I./include/
+# -I./src/
+# -I./application/src/
+# -I./application/
+# -std=c++20
+# -Wall
+# -Wextra
+# -Wpedantic
+
+
+

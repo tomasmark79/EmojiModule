@@ -1,0 +1,31 @@
+<map id="src/Utils/Filesystem/IFileReader.hpp" name="src/Utils/Filesystem/IFileReader.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="501,5,640,48"/>
+<area shape="rect" id="Node000002" href="$FileReader_8hpp.html" title=" " alt="" coords="291,96,429,139"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="508,57,410,98,408,93,506,52"/>
+<area shape="rect" id="Node000006" href="$JsonSerializer_8hpp.html" title=" " alt="" coords="464,104,677,131"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="573,64,573,104,568,104,568,64"/>
+<area shape="rect" id="Node000008" href="$UtilsFactory_8hpp.html" title=" " alt="" coords="791,104,960,131"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="655,50,833,101,831,106,654,55"/>
+<area shape="rect" id="Node000003" href="$FileReaderTest_8cpp.html" title=" " alt="" coords="168,187,352,229"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="327,151,285,188,281,184,324,147"/>
+<area shape="rect" id="Node000004" href="$FileReader_8cpp.html" title=" " alt="" coords="5,187,144,229"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="279,146,142,189,141,183,278,141"/>
+<area shape="rect" id="Node000005" href="$UtilsFactory_8cpp.html" title=" " alt="" coords="614,195,783,221"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="445,138,651,192,649,197,444,143"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="603,138,682,192,679,196,600,142"/>
+<area shape="rect" id="Node000007" href="$JsonSerializer_8cpp.html" title=" " alt="" coords="376,195,589,221"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="549,144,497,196,493,192,545,140"/>
+<area shape="poly" id="edge16_Node000008_Node000005" title=" " alt="" coords="838,140,725,196,723,192,836,136"/>
+<area shape="rect" id="Node000009" href="$Application_8cpp.html" title=" " alt="" coords="966,368,1164,395"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="915,136,949,158,982,185,1018,227,1042,276,1058,326,1066,367,1061,368,1053,327,1037,278,1013,230,978,189,946,162,913,141"/>
+<area shape="rect" id="Node000010" href="$EmojiModuleLib_8hpp.html" title=" " alt="" coords="870,277,1028,320"/>
+<area shape="poly" id="edge10_Node000008_Node000010" title=" " alt="" coords="914,137,940,158,960,186,966,209,967,234,959,278,954,277,962,234,961,210,955,188,936,162,911,141"/>
+<area shape="rect" id="Node000012" href="$Emoji_8hpp.html" title=" " alt="" coords="807,195,945,221"/>
+<area shape="poly" id="edge13_Node000008_Node000012" title=" " alt="" coords="878,146,878,194,873,194,873,146"/>
+<area shape="poly" id="edge11_Node000010_Node000009" title=" " alt="" coords="993,327,1048,365,1045,370,990,331"/>
+<area shape="rect" id="Node000011" href="$EmojiModuleLib_8cpp.html" title=" " alt="" coords="781,368,941,395"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="917,333,877,369,873,365,913,329"/>
+<area shape="poly" id="edge14_Node000012_Node000010" title=" " alt="" coords="898,232,934,275,930,279,894,235"/>
+<area shape="rect" id="Node000013" href="$Emoji_8cpp.html" title=" " alt="" coords="708,285,846,312"/>
+<area shape="poly" id="edge15_Node000012_Node000013" title=" " alt="" coords="852,234,793,287,790,283,849,230"/>
+</map>

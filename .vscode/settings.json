@@ -1,0 +1,14 @@
+{
+    // CCLS configuration requires a compilation database
+    "ccls.misc.compilationDatabaseDirectory": "${workspaceFolder}/build/application/default/debug/",
+    // File associations - ensure headers are treated as C++
+    "files.associations": {
+        "*.cpp": "cpp",
+        "*.hpp": "cpp",
+        "*.h": "cpp",
+        "*.c": "c",
+        "*.cc": "cpp",
+        "*.cxx": "cpp",
+        "*.hxx": "cpp"
+    }
+}

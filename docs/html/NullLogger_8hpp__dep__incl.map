@@ -1,0 +1,21 @@
+<map id="src/Utils/Logger/NullLogger.hpp" name="src/Utils/Logger/NullLogger.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="126,5,330,32"/>
+<area shape="rect" id="Node000002" href="$LoggerFactory_8cpp.html" title=" " alt="" coords="5,80,230,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,43,138,82,135,77,195,38"/>
+<area shape="rect" id="Node000003" href="$UtilsFactory_8hpp.html" title=" " alt="" coords="254,80,424,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="261,38,321,77,318,82,258,43"/>
+<area shape="rect" id="Node000004" href="$Application_8cpp.html" title=" " alt="" coords="104,320,302,347"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="316,119,272,168,250,198,231,230,214,279,207,320,201,319,209,278,226,228,245,195,268,165,312,116"/>
+<area shape="rect" id="Node000005" href="$EmojiModuleLib_8hpp.html" title=" " alt="" coords="240,229,398,272"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="326,121,313,155,311,194,316,228,311,229,306,194,308,154,321,119"/>
+<area shape="rect" id="Node000007" href="$Emoji_8hpp.html" title=" " alt="" coords="323,155,461,181"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="359,118,385,153,381,156,355,121"/>
+<area shape="rect" id="Node000009" href="$UtilsFactory_8cpp.html" title=" " alt="" coords="485,155,654,181"/>
+<area shape="poly" id="edge10_Node000003_Node000009" title=" " alt="" coords="394,109,530,151,528,157,393,114"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="278,283,223,322,220,317,275,279"/>
+<area shape="rect" id="Node000006" href="$EmojiModuleLib_8cpp.html" title=" " alt="" coords="327,320,487,347"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="355,281,395,317,391,321,351,285"/>
+<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="373,195,339,231,335,227,369,191"/>
+<area shape="rect" id="Node000008" href="$Emoji_8cpp.html" title=" " alt="" coords="422,237,560,264"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="421,189,478,235,474,239,418,193"/>
+</map>

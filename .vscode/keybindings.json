@@ -1,0 +1,80 @@
+[
+    /* The content below is intended for `~/.config/Code/User/keybindings.json` */
+    
+    /* === BUILD TASKS === */
+    {
+        "key": "f7",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Direct Build"
+    },
+    {
+        "key": "shift+f7", 
+        "command": "workbench.action.tasks.runTask",
+        "args": "DotName Building Tasks"
+    },
+    {
+        "key": "ctrl+f7",
+        "command": "workbench.action.tasks.runTask", 
+        "args": "DotName Other Tasks"
+    },
+    {
+        "key": "ctrl+alt+p",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Build All CMakeUserPresets.json"
+    },
+
+    /* === LAUNCH TASKS === */
+    {
+        "key": "ctrl+alt+r",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Launch Application binary"
+    },
+    {
+        "key": "ctrl+alt+e",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Launch Application Emscripten"
+    },
+
+    /* === FORMATTING & LINTING === */
+    {
+        "key": "ctrl+alt+f",
+        "command": "workbench.action.tasks.runTask",
+        "args": "clang-format"
+    },
+    {
+        "key": "ctrl+alt+m",
+        "command": "workbench.action.tasks.runTask",
+        "args": "cmake-format"
+    },
+    {
+        "key": "ctrl+alt+l",
+        "command": "workbench.action.tasks.runTask",
+        "args": "clang-tidy"
+    },
+
+    /* === COVERAGE TASKS === */
+    {
+        "key": "ctrl+alt+t",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Coverage Tasks"
+    },
+    {
+        "key": "ctrl+alt+h",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Coverage HTML Report"
+    },
+    {
+        "key": "ctrl+alt+shift+h",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Coverage Full Report"
+    },
+    {
+        "key": "ctrl+alt+shift+c",
+        "command": "workbench.action.tasks.runTask",
+        "args": "Configure with Coverage"
+    },
+    {
+        "key": "ctrl+shift+alt+f",
+        "command": "ccls.restart"
+    }
+]

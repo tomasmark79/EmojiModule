@@ -1,0 +1,963 @@
+import os
+import requests
+import shutil
+from datetime import datetime
+import sys
+import subprocess
+import tempfile
+import logging
+import hashlib
+from dateutil import parser as date_parser
+
+# MIT License Copyright (c) 2024-2025 Tomáš Mark
+
+# ==============================================================================
+# SolutionUpgrader - Automated project file synchronization from GitHub template
+# ==============================================================================
+# This script updates project files from the DotNameCpp template repository.
+# 
+# IMPORTANT FILES SYNCHRONIZED:
+# - Build configuration: CMakeLists.txt, cmake/*.cmake
+# - Source code: application/src/Application.cpp, src/Utils/*
+# - Tests: application/tests/*
+# - Configuration: .vscode/*, conanfile.py, Doxyfile
+# - Documentation: README.md, LICENSE
+# - Assets: assets/ems-mini.html
+#
+# PROTECTED FILES (won't be updated if contain <DOTNAME_NO_UPDATE>):
+# - User-modified configuration files
+# - Custom source files
+# - SolutionUpgrader.py itself (in main template)
+# ==============================================================================
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+# URL of the repository with the updated files
+repo_url = "https://raw.githubusercontent.com/tomasmark79/DotNameCpp/main/"
+token = os.environ.get("GITHUB_TOKEN", "")  # Set this environment variable with your token
+
+def check_write_permissions(path):
+    """Check if we have write permissions for the file path or its parent directory."""
+    dir_path = os.path.dirname(path) or '.'
+    
+    # Check if directory exists
+    if not os.path.exists(dir_path):
+        try:
+            # Try to create the directory first
+            os.makedirs(dir_path, exist_ok=True)
+        except (IOError, OSError) as e:
+            logging.error(f"Failed to create directory {dir_path}: {str(e)}")
+            return False
+    
+    # Check if we can write to the directory
+    try:
+        test_file = os.path.join(dir_path, '.write_test')
+        with open(test_file, 'w') as f:
+            f.write('test')
+        os.remove(test_file)
+        return True
+    except (IOError, OSError) as e:
+        logging.error(f"No write permissions for {dir_path}: {str(e)}")
+        return False
+
+def create_backup_dir():
+    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+    backup_dir = os.path.join("dotnamebackup", timestamp)
+    os.makedirs(backup_dir, exist_ok=True)
+    return backup_dir
+
+def is_binary_file(file_path):
+    """Determine if a file is binary based on extension or content."""
+    # Check based on extension
+    binary_extensions = ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico', '.pdf', 
+                         '.exe', '.dll', '.so', '.dylib', '.bin', '.dat']
+    
+    ext = os.path.splitext(file_path)[1].lower()
+    if ext in binary_extensions:
+        return True
+    
+    # If not determined by extension, check file content
+    try:
+        with open(file_path, 'rb') as f:
+            chunk = f.read(1024)
+            # Check for null bytes which typically indicate binary content
+            if b'\x00' in chunk:
+                return True
+            # Try to decode as text
+            try:
+                chunk.decode('utf-8')
+                return False
+            except UnicodeDecodeError:
+                return True
+    except (IOError, OSError):
+        # If can't open, assume it's not binary
+        return False
+
+def can_update_file(file_path):
+    # For SolutionUpgrader.py: allow self-update only in clones, not in main template
+    if file_path == "SolutionUpgrader.py":
+        if is_main_template():
+            # We're in the main template - don't allow self-update to prevent losing improvements
+            return False
+        else:
+            # We're in a clone - allow self-update to get latest version from template
+            return True
+        
+    # Skip checks for binary files
+    if os.path.exists(file_path) and is_binary_file(file_path):
+        return True
+        
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            for line in file:
+                if "<DOTNAME_NO_UPDATE>" in line:
+                    return False
+    except UnicodeDecodeError:
+        try:
+            # Fallback to binary mode and decode line by line
+            with open(file_path, 'rb') as file:
+                for line in file:
+                    try:
+                        decoded_line = line.decode('utf-8', errors='ignore')
+                        if "<DOTNAME_NO_UPDATE>" in decoded_line:
+                            return False
+                    except:
+                        pass
+        except:
+            # If all else fails, allow update
+            pass
+    except (IOError, OSError):
+        # File doesn't exist yet, so it can be updated
+        pass
+    return True
+
+def ensure_directory_exists(path):
+    """Ensure that the directory for the given file path exists."""
+    dir_path = os.path.dirname(path)
+    if dir_path and not os.path.exists(dir_path):
+        try:
+            os.makedirs(dir_path, exist_ok=True)
+            logging.info(f"Created directory structure: {dir_path}")
+            return True
+        except (IOError, OSError) as e:
+            logging.error(f"Failed to create directory {dir_path}: {str(e)}")
+            return False
+    return True
+
+def update_file(file_path, backup_dir):
+    # Ensure directory structure exists
+    if not ensure_directory_exists(file_path):
+        return False
+
+    if not check_write_permissions(file_path):
+        logging.error(f"No write permissions for {file_path}")
+        return False
+
+    try:
+        url = repo_url + file_path
+        headers = {"Authorization": f"token {token}"} if token else {}
+        
+        # Use binary mode for all requests to handle both text and binary files
+        response = requests.get(url, timeout=30, verify=True, headers=headers)
+        response.raise_for_status()
+
+        # Backup existing file
+        if os.path.exists(file_path) and file_path != "SolutionUpgrader.py":
+            backup_path = os.path.join(backup_dir, file_path)
+            # Ensure backup directory structure exists
+            os.makedirs(os.path.dirname(backup_path), exist_ok=True)
+            shutil.copy2(file_path, backup_path)
+            logging.info(f"Backed up: {file_path}")
+
+        # Handle binary files
+        if is_binary_file(file_path) or any(file_path.endswith(ext) for ext in ['.png', '.jpg', '.jpeg', '.gif']):
+            with open(file_path, 'wb') as file:
+                file.write(response.content)
+            logging.info(f"Updated binary file: {file_path}")
+        else:
+            # Try UTF-8 first, fallback to detected encoding
+            try:
+                with open(file_path, 'w', encoding='utf-8') as file:
+                    file.write(response.text)
+                logging.info(f"Updated: {file_path}")
+            except UnicodeEncodeError:
+                with open(file_path, 'w', encoding=response.encoding) as file:
+                    file.write(response.text)
+                logging.info(f"Updated with {response.encoding} encoding: {file_path}")
+        return True
+
+    except requests.RequestException as e:
+        logging.error(f"Failed to update {file_path}: {str(e)}")
+    except OSError as e:
+        logging.error(f"File system error for {file_path}: {str(e)}")
+    return False
+
+def get_all_files_from_repo():
+    """Get all files from the GitHub repository using GitHub API."""
+    try:
+        # GitHub API URL for repository contents
+        api_url = "https://api.github.com/repos/tomasmark79/DotNameCpp/git/trees/main?recursive=1"
+        headers = {}
+        
+        if token:
+            headers["Authorization"] = f"token {token}"
+            logging.info("Using GitHub token for authentication")
+        else:
+            logging.warning("No GitHub token found. Rate limit: 60 requests/hour")
+            logging.warning("Set GITHUB_TOKEN environment variable to increase limit to 5000/hour")
+        
+        response = requests.get(api_url, timeout=30, verify=True, headers=headers)
+        
+        # Check for rate limit
+        if response.status_code == 403:
+            rate_limit_remaining = response.headers.get('X-RateLimit-Remaining', 'unknown')
+            rate_limit_reset = response.headers.get('X-RateLimit-Reset', 'unknown')
+            
+            if rate_limit_reset != 'unknown':
+                try:
+                    reset_time = datetime.fromtimestamp(int(rate_limit_reset))
+                    logging.error(f"GitHub API rate limit exceeded. Resets at: {reset_time}")
+                except ValueError:
+                    logging.error(f"GitHub API rate limit exceeded. Reset time: {rate_limit_reset}")
+            else:
+                logging.error("GitHub API rate limit exceeded")
+            
+            logging.error("Solutions:")
+            logging.error("1. Set GITHUB_TOKEN environment variable: export GITHUB_TOKEN='your_token'")
+            logging.error("2. Wait until rate limit resets")
+            logging.error("3. Create token at: https://github.com/settings/tokens")
+            return []
+        
+        response.raise_for_status()
+        
+        data = response.json()
+        files = []
+        
+        # Filter only files (not directories) and exclude certain patterns
+        exclude_patterns = [
+            '.git/',
+            'build/',
+            'dotnamebackup/',
+            '__pycache__/',
+            '.pytest_cache/',
+            'docs/',                  # Documentation (contains thousands of files)
+            'doc/',                   # Alternative documentation folder
+            '.vscode/ipch/',
+            'build_*/build',
+            'CMakeUserPresets.json',  # Generated by Conan
+            'cmake-build-',           # CLion build directories
+            '.cache/',                # CMake cache
+            'install/',               # Installation artifacts
+            'tarballs/'               # Distribution archives
+        ]
+        
+        for item in data.get('tree', []):
+            if item['type'] == 'blob':  # blob = file, tree = directory
+                file_path = item['path']
+                
+                # Skip files matching exclude patterns
+                should_exclude = False
+                for pattern in exclude_patterns:
+                    if pattern in file_path:
+                        should_exclude = True
+                        break
+                
+                if not should_exclude:
+                    files.append(file_path)
+        
+        logging.info(f"Found {len(files)} files in repository")
+        return files
+        
+    except requests.RequestException as e:
+        logging.error(f"Failed to get repository files: {str(e)}")
+        return []
+
+def get_files_to_check():
+    """Get list of files to check - auto-discovered from repository."""
+    logging.info("Auto-discovering files from repository...")
+    return get_all_files_from_repo()
+
+def is_main_template():
+    """Check if we're in the main template repository (not a clone)."""
+    try:
+        # Primary method: check git remote URL
+        result = subprocess.run(['git', 'remote', 'get-url', 'origin'], 
+                              capture_output=True, text=True, timeout=5)
+        if result.returncode == 0:
+            remote_url = result.stdout.strip()
+            # If remote points to the main template repository
+            if 'tomasmark79/DotNameCpp' in remote_url:
+                return True
+    except (subprocess.TimeoutExpired, subprocess.CalledProcessError, FileNotFoundError):
+        pass
+    
+    # Fallback method: check directory name
+    try:
+        current_dir = os.path.basename(os.getcwd())
+        return current_dir == 'DotNameCpp'
+    except:
+        pass
+    
+    # If all methods fail, assume it's a clone (safer for self-update protection)
+    return False
+
+def get_file_hash(file_path):
+    """Calculate SHA256 hash of a local file.
+    Always uses binary mode for consistent hashing with remote files.
+    """
+    if not os.path.exists(file_path):
+        return None
+    
+    try:
+        hasher = hashlib.sha256()
+        # Always read in binary mode for consistent hash comparison
+        with open(file_path, 'rb') as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hasher.update(chunk)
+        return hasher.hexdigest()
+    except (IOError, OSError) as e:
+        logging.error(f"Failed to calculate hash for {file_path}: {str(e)}")
+        return None
+
+def get_remote_file_hash(file_path):
+    """Get SHA256 hash of remote file."""
+    try:
+        url = repo_url + file_path
+        headers = {"Authorization": f"token {token}"} if token else {}
+        
+        response = requests.get(url, timeout=30, verify=True, headers=headers)
+        response.raise_for_status()
+        
+        hasher = hashlib.sha256()
+        hasher.update(response.content)
+        return hasher.hexdigest()
+    except requests.RequestException as e:
+        logging.error(f"Failed to get remote hash for {file_path}: {str(e)}")
+        return None
+
+def get_file_last_commit_date(file_path):
+    """Get the date of the last commit for a file from GitHub."""
+    try:
+        # GitHub API URL for file commits
+        api_url = f"https://api.github.com/repos/tomasmark79/DotNameCpp/commits"
+        headers = {"Authorization": f"token {token}"} if token else {}
+        
+        params = {
+            "path": file_path,
+            "per_page": 1  # We only need the latest commit
+        }
+        
+        response = requests.get(api_url, params=params, timeout=30, verify=True, headers=headers)
+        response.raise_for_status()
+        
+        commits = response.json()
+        if commits and len(commits) > 0:
+            commit_date_str = commits[0]['commit']['committer']['date']
+            # Parse ISO 8601 date string to datetime object
+            commit_date = date_parser.parse(commit_date_str)
+            return commit_date
+        
+        return None
+        
+    except requests.RequestException as e:
+        logging.error(f"Failed to get commit date for {file_path}: {str(e)}")
+        return None
+    except Exception as e:
+        logging.error(f"Failed to parse commit date for {file_path}: {str(e)}")
+        return None
+
+def get_local_file_modification_date(file_path):
+    """Get the local file modification date."""
+    try:
+        if os.path.exists(file_path):
+            timestamp = os.path.getmtime(file_path)
+            return datetime.fromtimestamp(timestamp)
+        return None
+    except OSError as e:
+        logging.error(f"Failed to get modification date for {file_path}: {str(e)}")
+        return None
+
+def parse_file_paths(input_text):
+    """Parse file paths from input text that may contain multiple files separated by spaces, newlines, etc."""
+    if not input_text:
+        return []
+    
+    # Split by various whitespace characters and filter out empty strings
+    import re
+    
+    # Split by whitespace (spaces, tabs, newlines) and filter empty strings
+    paths = re.split(r'\s+', input_text.strip())
+    paths = [path.strip() for path in paths if path.strip()]
+    
+    # Remove any surrounding quotes
+    cleaned_paths = []
+    for path in paths:
+        # Remove surrounding quotes if present
+        if (path.startswith('"') and path.endswith('"')) or (path.startswith("'") and path.endswith("'")):
+            path = path[1:-1]
+        
+        # Skip empty paths after quote removal
+        if path.strip():
+            cleaned_paths.append(path.strip())
+    
+    return cleaned_paths
+
+def check_file_status(file_path):
+    """Check file status compared to remote version.
+    Uses content-based comparison (SHA256 hash) as primary method.
+    Timestamps are only used when content actually differs.
+    
+    Returns:
+    - 'missing': File doesn't exist locally
+    - 'protected': File is protected from updates
+    - 'up_to_date': Files are identical (same hash)
+    - 'outdated': Local file differs and is older than remote
+    - 'locally_modified': Local file differs and is newer than remote
+    - 'differs': Files differ but can't determine which is newer
+    - 'error': Unable to determine status
+    """
+    if not os.path.exists(file_path):
+        return 'missing'
+    
+    if not can_update_file(file_path):
+        return 'protected'
+    
+    # PRIMARY: Compare content via hash
+    local_hash = get_file_hash(file_path)
+    remote_hash = get_remote_file_hash(file_path)
+    
+    if local_hash is None or remote_hash is None:
+        return 'error'
+    
+    # If hashes are the same, files are IDENTICAL regardless of timestamp
+    if local_hash == remote_hash:
+        return 'up_to_date'
+    
+    # Files are DIFFERENT in content - now check dates to determine which is newer
+    local_date = get_local_file_modification_date(file_path)
+    remote_date = get_file_last_commit_date(file_path)
+    
+    if local_date is None or remote_date is None:
+        return 'differs'  # Can't determine which is newer
+    
+    # Compare dates (remove timezone info for comparison)
+    if hasattr(remote_date, 'replace'):
+        remote_date = remote_date.replace(tzinfo=None)
+    
+    if local_date < remote_date:
+        return 'outdated'  # Local file is older (and different)
+    elif local_date > remote_date:
+        return 'locally_modified'  # Local file is newer (and different)
+    else:
+        return 'differs'  # Same date but different content (rare case)
+
+def check_outdated_files(show_details=True):
+    """Check all files and return list categorized by status."""
+    outdated_files = []
+    locally_modified_files = []
+    up_to_date_files = []
+    protected_files = []
+    missing_files = []
+    differs_files = []
+    error_files = []
+    
+    if show_details:
+        logging.info("Checking file status...")
+    
+    # Get files to check (either predefined or auto-discovered)
+    files_to_check = get_files_to_check()
+    
+    if not files_to_check:
+        logging.error("No files to check found!")
+        return {
+            'outdated': [],
+            'locally_modified': [],
+            'missing': [],
+            'up_to_date': [],
+            'protected': [],
+            'differs': [],
+            'errors': []
+        }
+    
+    for file_path in files_to_check:
+        status = check_file_status(file_path)
+        
+        if status == 'missing':
+            missing_files.append(file_path)
+            if show_details:
+                logging.info(f"Missing: {file_path}")
+        elif status == 'protected':
+            protected_files.append(file_path)
+            if show_details:
+                logging.info(f"Protected: {file_path}")
+        elif status == 'up_to_date':
+            up_to_date_files.append(file_path)
+            if show_details:
+                logging.info(f"Up-to-date: {file_path}")
+        elif status == 'outdated':
+            outdated_files.append(file_path)
+            if show_details:
+                logging.info(f"Outdated: {file_path}")
+        elif status == 'locally_modified':
+            locally_modified_files.append(file_path)
+            if show_details:
+                logging.info(f"Locally modified: {file_path}")
+        elif status == 'differs':
+            differs_files.append(file_path)
+            if show_details:
+                logging.info(f"Differs from template: {file_path}")
+        else:  # error
+            error_files.append(file_path)
+            if show_details:
+                logging.warning(f"Error checking: {file_path}")
+    
+    # Print summary
+    print("\n" + "="*70)
+    print("FILE STATUS SUMMARY")
+    print("="*70)
+    
+    if outdated_files:
+        print(f"\n📋 OUTDATED FILES (local older than GitHub) ({len(outdated_files)}):")
+        for idx, file in enumerate(outdated_files, 1):
+            print(f"  [{idx:2d}] {file}")
+    
+    if locally_modified_files:
+        print(f"\n🔄 LOCALLY MODIFIED FILES (local newer than GitHub) ({len(locally_modified_files)}):")
+        for idx, file in enumerate(locally_modified_files, len(outdated_files) + 1):
+            print(f"  [{idx:2d}] {file}")
+    
+    if differs_files:
+        offset = len(outdated_files) + len(locally_modified_files)
+        print(f"\n❓ FILES DIFFERENT FROM TEMPLATE (cannot determine age) ({len(differs_files)}):")
+        for idx, file in enumerate(differs_files, offset + 1):
+            print(f"  [{idx:2d}] {file}")
+    
+    if missing_files:
+        offset = len(outdated_files) + len(locally_modified_files) + len(differs_files)
+        print(f"\n❌ MISSING FILES ({len(missing_files)}):")
+        for idx, file in enumerate(missing_files, offset + 1):
+            print(f"  [{idx:2d}] {file}")
+    
+    if up_to_date_files and show_details:
+        print(f"\n✅ UP-TO-DATE FILES ({len(up_to_date_files)}):")
+        for file in up_to_date_files:
+            print(f"      {file}")
+    
+    if protected_files:
+        print(f"\n🔒 PROTECTED FILES ({len(protected_files)}):")
+        for file in protected_files:
+            print(f"      {file}")
+    
+    if error_files:
+        print(f"\n⚠️  ERROR CHECKING ({len(error_files)}):")
+        for file in error_files:
+            print(f"      {file}")
+    
+    print(f"\nTotal files checked: {len(files_to_check)}")
+    print("="*70)
+    
+    return {
+        'outdated': outdated_files,
+        'locally_modified': locally_modified_files,
+        'missing': missing_files,
+        'up_to_date': up_to_date_files,
+        'protected': protected_files,
+        'differs': differs_files,
+        'errors': error_files
+    }
+
+def interactive_update():
+    """Interactive mode for updating files one by one."""
+    print("="*70)
+    print("🔄 INTERACTIVE UPDATE MODE")
+    print("="*70)
+    print("\nScanning repository for file status...")
+    
+    # Get file status
+    status = check_outdated_files(show_details=False)
+    
+    # Create numbered dictionary of updateable files with fixed indices
+    updateable_files = {}
+    file_index = 1
+    
+    for file_path in status['outdated']:
+        updateable_files[file_index] = {'path': file_path, 'status': 'outdated', 'updated': False}
+        file_index += 1
+    
+    for file_path in status['locally_modified']:
+        updateable_files[file_index] = {'path': file_path, 'status': 'locally_modified', 'updated': False}
+        file_index += 1
+    
+    for file_path in status['differs']:
+        updateable_files[file_index] = {'path': file_path, 'status': 'differs', 'updated': False}
+        file_index += 1
+    
+    for file_path in status['missing']:
+        updateable_files[file_index] = {'path': file_path, 'status': 'missing', 'updated': False}
+        file_index += 1
+    
+    if not updateable_files:
+        print("\n✅ All files are up-to-date! Nothing to update.")
+        print("="*70)
+        return
+    
+    # Create backup directory once
+    backup_dir = create_backup_dir()
+    
+    while True:
+        print("\n" + "="*70)
+        print("Available files to update:")
+        print("="*70)
+        
+        # Display files with status indicators
+        remaining_count = 0
+        for idx, file_info in updateable_files.items():
+            status_marker = "✅" if file_info['updated'] else "  "
+            print(f"{status_marker} {idx:3d}. {file_info['path']}")
+            if not file_info['updated']:
+                remaining_count += 1
+        
+        if remaining_count == 0:
+            print("\n🎉 All files updated!")
+            print(f"📦 Backup location: {backup_dir}")
+            print("="*70)
+            break
+        
+        print("="*70)
+        print("Commands: 'q' to quit, 'r' to refresh")
+        print("="*70)
+        
+        try:
+            user_input = input(f"\nEnter number (1-{len(updateable_files)}) or command: ").strip()
+            
+            if user_input.lower() == 'q':
+                print("\n👋 Exiting interactive mode.")
+                print("="*70)
+                break
+            
+            if user_input.lower() == 'r':
+                print("\n🔄 Refreshing file status...")
+                status = check_outdated_files(show_details=False)
+                
+                # Rebuild updateable_files dictionary
+                updateable_files = {}
+                file_index = 1
+                
+                for file_path in status['outdated']:
+                    updateable_files[file_index] = {'path': file_path, 'status': 'outdated', 'updated': False}
+                    file_index += 1
+                
+                for file_path in status['locally_modified']:
+                    updateable_files[file_index] = {'path': file_path, 'status': 'locally_modified', 'updated': False}
+                    file_index += 1
+                
+                for file_path in status['differs']:
+                    updateable_files[file_index] = {'path': file_path, 'status': 'differs', 'updated': False}
+                    file_index += 1
+                
+                for file_path in status['missing']:
+                    updateable_files[file_index] = {'path': file_path, 'status': 'missing', 'updated': False}
+                    file_index += 1
+                
+                if not updateable_files:
+                    print("\n✅ All files are up-to-date! Nothing to update.")
+                    print("="*70)
+                    break
+                continue
+            
+            # Try to parse as number
+            try:
+                file_num = int(user_input)
+                if file_num not in updateable_files:
+                    print(f"\n❌ Invalid number! Please enter a valid file number")
+                    continue
+                
+                # Get selected file info
+                file_info = updateable_files[file_num]
+                selected_file = file_info['path']
+                
+                # Check if already updated
+                if file_info['updated']:
+                    print(f"\n✅ File already updated: {selected_file}")
+                    continue
+                
+                # Check if file can be updated
+                if not can_update_file(selected_file):
+                    print(f"\n🔒 File is protected: {selected_file}")
+                    print("    (contains <DOTNAME_NO_UPDATE> tag)")
+                    continue
+                
+                # Confirm update
+                print(f"\n📝 Selected: {selected_file}")
+                confirm = input("    Update this file? (y/n): ").strip().lower()
+                
+                if confirm == 'y':
+                    print(f"\n🔄 Updating: {selected_file}")
+                    if update_file(selected_file, backup_dir):
+                        print(f"✅ Successfully updated: {selected_file}")
+                        
+                        # Mark as updated (keep same index number)
+                        file_info['updated'] = True
+                    else:
+                        print(f"❌ Failed to update: {selected_file}")
+                else:
+                    print("    Skipped.")
+                    
+            except ValueError:
+                print(f"\n❌ Invalid input! Please enter a number (1-{len(updateable_files)}), 'r' to refresh, or 'q' to quit")
+                
+        except KeyboardInterrupt:
+            print("\n\n👋 Interrupted by user.")
+            print("="*70)
+            break
+        except EOFError:
+            print("\n\n👋 EOF received.")
+            print("="*70)
+            break
+    
+    if backup_dir and os.path.exists(backup_dir) and os.listdir(backup_dir):
+        print(f"\n📦 Backup created in: {backup_dir}")
+        print("="*70)
+
+def show_help():
+    """Display help information."""
+    print("="*70)
+    print("⚠️  SECURITY WARNING ⚠️")
+    print("This script can overwrite files in your project!")
+    print("="*70)
+    print("\nSolutionUpgrader.py - Synchronize files from DotNameCpp template")
+    print("\nUsage:")
+    print("  python SolutionUpgrader.py -i | --interactive")
+    print("      Interactive mode - select files by number (RECOMMENDED)")
+    print()
+    print("  python SolutionUpgrader.py -c | --check")
+    print("      Check for outdated files (SAFE - read-only)")
+    print()
+    print("  python SolutionUpgrader.py -u | --update-file <filepath(s)>")
+    print("      Update specific file(s)")
+    print()
+    print("  python SolutionUpgrader.py --force-update")
+    print("      Update all outdated files (CREATES BACKUP)")
+    print()
+    print("  python SolutionUpgrader.py -h | --help")
+    print("      Show this help")
+    print("\nInteractive Mode (Recommended):")
+    print("  python SolutionUpgrader.py -i")
+    print("  • Shows numbered list of updateable files")
+    print("  • Select file by entering its number")
+    print("  • Update files one by one with confirmation")
+    print("  • Type 'r' to refresh status, 'q' to quit")
+    print("\nExamples:")
+    print("  # Interactive mode (best for beginners)")
+    print("  python SolutionUpgrader.py -i")
+    print()
+    print("  # Check status of all files")
+    print("  python SolutionUpgrader.py -c")
+    print()
+    print("  # Update single file")
+    print("  python SolutionUpgrader.py -u README.md")
+    print()
+    print("  # Update multiple files")
+    print("  python SolutionUpgrader.py -u \"README.md CMakeLists.txt\"")
+    print("  python SolutionUpgrader.py -u cmake/project-common.cmake")
+    print()
+    print("  # Update critical build files")
+    print("  python SolutionUpgrader.py -u \"application/src/Application.cpp\"")
+    print("  python SolutionUpgrader.py -u \"src/Utils/UtilsFactory.hpp\"")
+    print("\nSecurity & Protection:")
+    print("  ✓ Backup is created before any update")
+    print("  ✓ Files with <DOTNAME_NO_UPDATE> tag are protected")
+    print("  ✓ Always run --check first to see what will be updated")
+    print("  ✓ SolutionUpgrader.py won't update itself in the main template")
+    print("\nKey Files Managed:")
+    print("  • Build: CMakeLists.txt, cmake/*.cmake")
+    print("  • Source: application/src/Application.cpp, src/Utils/*")
+    print("  • Tests: application/tests/*")
+    print("  • Config: .vscode/*, conanfile.py, Doxyfile")
+    print("  • Docs: README.md, LICENSE")
+    print("="*70)
+
+def main():
+    # Check for command line arguments
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "--interactive" or sys.argv[1] == "-i":
+            # Interactive mode
+            interactive_update()
+            return
+        elif sys.argv[1] == "--check" or sys.argv[1] == "-c":
+            # Only check for outdated files, don't update
+            check_outdated_files(show_details=True)
+            return
+        elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
+            show_help()
+            return
+        elif sys.argv[1] == "--update-file" or sys.argv[1] == "-u":
+            if len(sys.argv) < 3:
+                print("="*70)
+                print("❌ Error: Missing file path(s)!")
+                print("="*70)
+                print("\nUsage:")
+                print("  python SolutionUpgrader.py --update-file <filepath>")
+                print("  python SolutionUpgrader.py -u <filepath>")
+                print("  python SolutionUpgrader.py -u \"file1.txt file2.txt\"")
+                print("\nExamples:")
+                print("  python SolutionUpgrader.py -u README.md")
+                print("  python SolutionUpgrader.py -u cmake/project-common.cmake")
+                print("  python SolutionUpgrader.py -u \"CMakeLists.txt conanfile.py\"")
+                print("\n💡 Tip: Run 'python SolutionUpgrader.py -c' to see available files")
+                print("="*70)
+                return
+            
+            # Parse file paths from argument (can contain multiple files separated by spaces/newlines)
+            files_input = sys.argv[2]
+            files_to_update = parse_file_paths(files_input)
+            
+            if not files_to_update:
+                print("❌ Error: No valid file paths found!")
+                return
+            
+            # Get all repository files for validation
+            all_repo_files = get_all_files_from_repo()
+            
+            # Validate all files first
+            invalid_files = []
+            protected_files = []
+            
+            for file_path in files_to_update:
+                # Check if file can be updated
+                if os.path.exists(file_path) and not can_update_file(file_path):
+                    protected_files.append(file_path)
+                    continue
+                    
+                # Check if file exists in repository
+                if file_path not in all_repo_files:
+                    invalid_files.append(file_path)
+                    continue
+            
+            # Report validation issues
+            if protected_files:
+                print("\n🔒 Protected files (cannot be updated):")
+                for file in protected_files:
+                    print(f"   • {file}")
+                print("   (contain <DOTNAME_NO_UPDATE> tag)")
+            
+            if invalid_files:
+                print("\n❌ Files not found in repository:")
+                for file in invalid_files:
+                    print(f"   • {file}")
+                print("\n💡 Tip: Run 'python SolutionUpgrader.py -c' to see all available files")
+                print("="*70)
+            
+            # Filter out invalid and protected files
+            valid_files = [f for f in files_to_update if f not in invalid_files and f not in protected_files]
+            
+            if not valid_files:
+                print("\n❌ No valid files to update!")
+                print("="*70)
+                return
+            
+            # Create backup directory
+            backup_dir = create_backup_dir()
+            
+            print()
+            print("="*70)
+            print(f"🔄 Updating {len(valid_files)} file(s):")
+            for file in valid_files:
+                print(f"   • {file}")
+            print("="*70)
+            print()
+            
+            # Update files
+            updated_files = []
+            failed_files = []
+            self_updated = False
+            
+            for file_to_update in valid_files:
+                if update_file(file_to_update, backup_dir):
+                    updated_files.append(file_to_update)
+                    if file_to_update == "SolutionUpgrader.py":
+                        self_updated = True
+                else:
+                    failed_files.append(file_to_update)
+            
+            # Report results
+            print()
+            print("="*70)
+            if updated_files:
+                print(f"✅ Successfully updated {len(updated_files)} file(s):")
+                for file in updated_files:
+                    print(f"   • {file}")
+                    
+            if failed_files:
+                print(f"\n❌ Failed to update {len(failed_files)} file(s):")
+                for file in failed_files:
+                    print(f"   • {file}")
+            
+            if backup_dir and updated_files:
+                print(f"\n📦 Backup location: {backup_dir}")
+            
+            print("="*70)
+            
+            # Handle self-update
+            if self_updated:
+                print("\n🔄 SolutionUpgrader.py has been updated!")
+                print("💡 Please run the script again to use the new version.")
+                print("="*70)
+                
+            return
+        elif sys.argv[1] == "--force-update":
+            # Pokračuj s force aktualizací všech souborů
+            print("="*70)
+            print("⚠️  FORCE UPDATE - Updating all outdated files")
+            print("="*70)
+            # Pokračuj níže ke klasické aktualizaci
+        else:
+            show_help()
+            return
+    else:
+        # Show interactive mode when no parameters provided
+        print("💡 No arguments provided. Starting interactive mode...")
+        print("   (Use --help to see all options)\n")
+        interactive_update()
+        return
+
+    # Force update mode - update all files
+    backup_dir = None
+
+    # Get files to update (either predefined or auto-discovered)
+    files_to_check = get_files_to_check()
+    
+    if not files_to_check:
+        logging.error("No files to update found!")
+        return
+
+    for file_path in files_to_check:
+        if os.path.exists(file_path):
+            if can_update_file(file_path):
+                logging.info(f"Updating: {file_path}")
+                
+                # Vytvoř backup_dir pouze když je potřeba zálohovat
+                if file_path != "SolutionUpgrader.py" and backup_dir is None:
+                    backup_dir = create_backup_dir()
+                
+                # Update souboru
+                if update_file(file_path, backup_dir):
+                    if file_path == "SolutionUpgrader.py":
+                        print("🔄 SolutionUpgrader.py has been updated!")
+                        print("💡 Please run the script again to use the new version.")
+                        return
+            else:
+                logging.info(f"Skipped (protected): {file_path}")
+        else:
+            logging.info(f"Creating new file: {file_path}")
+            if backup_dir is None:
+                backup_dir = create_backup_dir()
+            update_file(file_path, backup_dir)
+
+if __name__ == "__main__":
+    main()
+    

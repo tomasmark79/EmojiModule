@@ -1,0 +1,41 @@
+\doxysection{Emoji\+Module\+Lib.\+hpp}
+\hypertarget{EmojiModuleLib_8hpp_source}{}\label{EmojiModuleLib_8hpp_source}\index{include/EmojiModuleLib/EmojiModuleLib.hpp@{include/EmojiModuleLib/EmojiModuleLib.hpp}}
+\mbox{\hyperlink{EmojiModuleLib_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{Emoji_8hpp}{Emoji/Emoji.hpp}}>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <EmojiModuleLib/version.h>}\ \textcolor{comment}{//\ cmake\ configuration\ will\ generate\ this\ file}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{UtilsFactory_8hpp}{Utils/UtilsFactory.hpp}}>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacedotnamecpp_1_1v1}{dotnamecpp::v1}}\ \{}
+\DoxyCodeLine{00010\ \ \ \textcolor{keyword}{using\ namespace\ }\mbox{\hyperlink{namespacedotnamecpp_1_1utils}{dotnamecpp::utils}};}
+\DoxyCodeLine{00011\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad8b377a109e1cc8fb6892de7b9f4e389}{EmojiModuleLib}}\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad8b377a109e1cc8fb6892de7b9f4e389}{EmojiModuleLib}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structdotnamecpp_1_1utils_1_1UtilsFactory_1_1AppComponents}{UtilsFactory::AppComponents}}\ \&utilsComponents);}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_aa03569d373dd0f53c388e7f673574863}{\string~EmojiModuleLib}}();}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a5d8445b1b1726b15fa4201ceeeba3d2d}{EmojiModuleLib}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad8b377a109e1cc8fb6892de7b9f4e389}{EmojiModuleLib}}\ \&other)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad8b377a109e1cc8fb6892de7b9f4e389}{EmojiModuleLib}}\ \&\mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a66e80702039aee3938b3b3e6b380b60d}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad8b377a109e1cc8fb6892de7b9f4e389}{EmojiModuleLib}}\ \&other)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a20d7d8c8fa177dcb2e37323fa3efa564}{EmojiModuleLib}}(\mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad8b377a109e1cc8fb6892de7b9f4e389}{EmojiModuleLib}}\ \&\&other)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad8b377a109e1cc8fb6892de7b9f4e389}{EmojiModuleLib}}\ \&\mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_af641a2b1020a0e18265cc0dc44f9bad7}{operator=}}(\mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_ad8b377a109e1cc8fb6892de7b9f4e389}{EmojiModuleLib}}\ \&\&other)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a51eb024af982757f6a25fa26bff85c01}{isInitialized}}()\ const\ noexcept;}
+\DoxyCodeLine{00022\ \ \ \ \ [[nodiscard]]}
+\DoxyCodeLine{00023\ \ \ \ \ const\ std::shared\_ptr<\mbox{\hyperlink{namespacedotnamecpp}{dotnamecpp}}::\mbox{\hyperlink{namespacedotnamecpp_1_1assets}{assets}}::\mbox{\hyperlink{classdotnamecpp_1_1assets_1_1IAssetManager}{IAssetManager}}>\ \&\mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a90dcaa595310dff9c5840dd633166ec5}{getAssetManager}}()\ const\ noexcept;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ std::unique\_ptr<\mbox{\hyperlink{namespacedotnamecpp}{dotnamecpp}}::\mbox{\hyperlink{namespacedotnamecpp_1_1emoji}{emoji}}::Emoji>\ \mbox{\hyperlink{classdotnamecpp_1_1v1_1_1EmojiModuleLib_a3f8f7e00adeae482d04641c0274690a6}{emoji\_}};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ private:}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{bool}\ isInitialized\_\{\textcolor{keyword}{false}\};}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *libName\_\ =\ \textcolor{stringliteral}{"{}EmojiModuleLib\ v"{}}\ EMOJIMODULELIB\_VERSION;}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ std::shared\_ptr<dotnamecpp::logging::ILogger>\ logger\_;}
+\DoxyCodeLine{00032\ \ \ \ \ std::shared\_ptr<dotnamecpp::assets::IAssetManager>\ assetManager\_;}
+\DoxyCodeLine{00033\ \ \ \};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \}\ \textcolor{comment}{//\ namespace\ dotnamecpp::v1}}
+
+\end{DoxyCode}

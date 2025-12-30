@@ -24,6 +24,12 @@ namespace dotnamecpp::v1 {
 
     std::unique_ptr<dotnamecpp::emoji::Emoji> emoji_;
 
+    // Public Emoji methods
+    [[nodiscard]] std::string getRandomEmoji() const;
+    [[nodiscard]] std::string getEmoji() const;
+    [[nodiscard]] std::string getEmoji(char32_t *code, size_t totalCodePoints) const;
+    [[nodiscard]] std::string getEmoji(int32_t *code, size_t totalCodePoints) const;
+
   private:
     bool isInitialized_{false};
     static constexpr const char *libName_ = "EmojiModuleLib v" EMOJIMODULELIB_VERSION;

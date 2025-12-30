@@ -14,8 +14,8 @@ namespace dotnamecpp::v1 {
 
     emoji_ = std::make_unique<dotnamecpp::emoji::Emoji>(utilsComponents);
     emoji_->emojiChainTest<false>();
-    logger_->infoStream() << "Static emoji: " << emoji_->getEmoji() << ", Random emoji: "
-                          << emoji_->getRandomEmoji();
+    logger_->infoStream() << "Static emoji: " << emoji_->getEmoji()
+                          << ", Random emoji: " << emoji_->getRandomEmoji();
 
     logger_->infoStream() << libName_ << " initialized ...";
     isInitialized_ = true;
@@ -34,6 +34,15 @@ namespace dotnamecpp::v1 {
   const std::shared_ptr<dotnamecpp::assets::IAssetManager> &
       EmojiModuleLib::getAssetManager() const noexcept {
     return assetManager_;
+  }
+
+  std::string EmojiModuleLib::getRandomEmoji() const { return emoji_->getRandomEmoji(); }
+  std::string EmojiModuleLib::getEmoji() const { return emoji_->getEmoji(); }
+  std::string EmojiModuleLib::getEmoji(char32_t *code, size_t totalCodePoints) const {
+    return emoji_->getEmoji(code, totalCodePoints);
+  }
+  std::string EmojiModuleLib::getEmoji(int32_t *code, size_t totalCodePoints) const {
+    return emoji_->getEmoji(code, totalCodePoints);
   }
 
 } // namespace dotnamecpp::v1

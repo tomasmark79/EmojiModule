@@ -11,7 +11,7 @@ namespace dotnamecpp::v1 {
   class EmojiModuleLib {
 
   public:
-    EmojiModuleLib(const UtilsFactory::AppComponents &utilsComponents);
+    EmojiModuleLib(const UtilsFactory::ApplicationContext &context);
     ~EmojiModuleLib();
     EmojiModuleLib(const EmojiModuleLib &other) = delete;
     EmojiModuleLib &operator=(const EmojiModuleLib &other) = delete;

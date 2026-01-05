@@ -2,17 +2,17 @@
 
 namespace dotnamecpp::v1 {
 
-  EmojiModuleLib::EmojiModuleLib(const UtilsFactory::AppComponents &utilsComponents)
-      : logger_(utilsComponents.logger ? utilsComponents.logger
-                                       : std::make_shared<dotnamecpp::logging::NullLogger>()),
-        assetManager_(utilsComponents.assetManager) {
+  EmojiModuleLib::EmojiModuleLib(const UtilsFactory::ApplicationContext &context)
+      : logger_(context.logger ? context.logger
+                               : std::make_shared<dotnamecpp::logging::NullLogger>()),
+        assetManager_(context.assetManager) {
 
     if (!assetManager_ || !assetManager_->validate()) {
       logger_->errorStream() << "Invalid or missing asset manager";
       return;
     }
 
-    emoji_ = std::make_unique<dotnamecpp::emoji::Emoji>(utilsComponents);
+    emoji_ = std::make_unique<dotnamecpp::emoji::Emoji>(context);
     emoji_->emojiChainTest<false>();
     logger_->infoStream() << "Static emoji: " << emoji_->getEmoji()
                           << ", Random emoji: " << emoji_->getRandomEmoji();

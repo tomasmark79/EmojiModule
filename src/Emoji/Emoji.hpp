@@ -9,7 +9,7 @@ namespace dotnamecpp::emoji {
   using namespace dotnamecpp::utils;
   class Emoji {
   public:
-    Emoji(const UtilsFactory::AppComponents &utilsComponents);
+    Emoji(const UtilsFactory::ApplicationContext &context);
     ~Emoji();
 
     struct EmojiMap {

@@ -13,10 +13,10 @@ namespace dotnamecpp::emoji {
       (kMaxEmojiCodePoints * 4) +
       1; // Max kMaxEmojiCodePoints code points, each can take up to 4 bytes in UTF-8
 
-  Emoji::Emoji(const UtilsFactory::AppComponents &utilsComponents)
-      : logger_(utilsComponents.logger ? utilsComponents.logger
-                                       : std::make_shared<dotnamecpp::logging::NullLogger>()),
-        assetManager_(utilsComponents.assetManager) {
+  Emoji::Emoji(const UtilsFactory::ApplicationContext &context)
+      : logger_(context.logger ? context.logger
+                               : std::make_shared<dotnamecpp::logging::NullLogger>()),
+        assetManager_(context.assetManager) {
     initMemory();
   }
 
